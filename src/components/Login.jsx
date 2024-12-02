@@ -10,7 +10,7 @@ const Login = ({ setToken }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/admin/login', {
+      const response = await api.post('/admin/login/dashboard', {
         email,
         password
       });
