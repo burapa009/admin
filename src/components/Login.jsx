@@ -1,28 +1,32 @@
 /* eslint-disable react/prop-types */
-import axios from "axios";
 import { useState } from "react";
-import { backendUrl } from "../App";
+import { useNavigate } from 'react-router-dom';
+import api from '../utils/api';
 import { toast } from "react-toastify";
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-      const response = await axios.post(backendUrl + "/api/user/admin", {
+      const response = await api.post("/api/user/admin", {
         email,
         password,
       });
+      
       if (response.data.success) {
         setToken(response.data.token);
+        toast.success('เข้าสู่ระบบสำเร็จ');
+        navigate('/list'); // redirect ไปหน้า list หลังจาก login สำเร็จ
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      console.error('Login error:', error);
+      toast.error(error.response?.data?.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
     }
   };
 
@@ -59,8 +63,7 @@ const Login = ({ setToken }) => {
             className="mt-2 w-full py-2 px-4 rounded-md text-white bg-black"
             type="submit"
           >
-            {" "}
-            Login{" "}
+            Login
           </button>
         </form>
       </div>
