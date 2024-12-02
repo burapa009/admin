@@ -12,7 +12,7 @@ const Login = ({ setToken }) => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-      const response = await api.post("/api/user/admin/login", {
+      const response = await api.post("/api/admin/login", {
         email,
         password,
       });
