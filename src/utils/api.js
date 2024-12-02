@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // กำหนด backendUrl จาก environment variable
-const backendUrl = 'https://artnakk-backend-10.onrender.com';
+const backendUrl = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
   baseURL: backendUrl,
@@ -12,11 +12,6 @@ const api = axios.create({
 
 // Add request interceptor
 api.interceptors.request.use((config) => {
-  // เปลี่ยน endpoint สำหรับ login
-  if (config.url === '/auth/login') {
-    config.url = '/api/user/login';
-  }
-  
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
